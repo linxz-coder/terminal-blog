@@ -74,7 +74,7 @@ export default function Home() {
         </p>
 
         <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-          θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+          θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
           <input 
             ref={firstInputRef}
             className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -142,7 +142,7 @@ const HelpMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -166,7 +166,7 @@ const AboutMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -187,7 +187,7 @@ const EducationMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -216,7 +216,7 @@ const SkillsMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -245,7 +245,7 @@ const ProjectsMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -282,7 +282,7 @@ const ContactMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
@@ -300,7 +300,7 @@ const BlogMenu = ({ index, inputValue, onChange, inputRef }) => (
 
     {/* 第二个输入框 */}
     <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
-      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      θ/007 ~ <span className="text-teal-200">{`>> $  `}</span>
       <input
         ref={inputRef} 
         className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
