@@ -1,113 +1,312 @@
-import Image from 'next/image'
+'use client'
+import { useState, useRef, useEffect } from 'react';
+import { Press_Start_2P } from "next/font/google";
+const ps2 = Press_Start_2P({ subsets: ["latin"], weight:'400'});
 
 export default function Home() {
+  const [menus, setMenus] = useState([]);
+  const [firstInputValue, setFirstInputValue] = useState('');
+
+  const firstInputRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const checkUserInput = (value) => {
+
+    if (value === 'ls') {
+      setMenus(prevMenus => [...prevMenus, {type: 'ls',  inputValue: '', ref: inputRef}]);
+    } else if (value === 'about') {
+      setMenus(prevMenus => [...prevMenus, {type: 'about', inputValue: '', ref: inputRef}]);
+    } else if (value === 'clear') {
+      setFirstInputValue('');
+      setMenus([]); // clear all menus
+    } else  if (value === 'education') {
+      setMenus(prevMenus => [...prevMenus, { type: 'education', inputValue: '', ref: inputRef }]);
+    } else if (value === 'skills') {
+        setMenus(prevMenus => [...prevMenus, { type: 'skills', inputValue: '', ref: inputRef }]);
+    } else if (value === 'projects') {
+        setMenus(prevMenus => [...prevMenus, { type: 'projects', inputValue: '', ref: inputRef }]);
+    } else if (value === 'contact') {
+        setMenus(prevMenus => [...prevMenus, { type: 'contact', inputValue: '', ref: inputRef }]);
+    } else if (value === 'blog') {
+        setMenus(prevMenus => [...prevMenus, { type: 'blog', inputValue: '', ref: inputRef }]);
+  }
+  }
+
+  // 使用useEffect来设置焦点
+  useEffect(() => {
+    if (menus.length > 0) {
+        const lastMenu = menus[menus.length - 1];
+        lastMenu.ref.current && lastMenu.ref.current.focus();
+    }
+  }, [menus]);
+
+  //  一开始光标自动闪烁
+  useEffect(() => {
+    firstInputRef.current && firstInputRef.current.focus();
+  }, []);
+
+
+  const handleFirstInputChange = (e) => {
+    setFirstInputValue(e.target.value);
+    checkUserInput(e.target.value);
+  }
+
+  const handleSecondInputChange = (menuIndex, e) => {
+    const newValue = e.target.value;
+    setMenus(prevMenus => {
+      const newMenus = [...prevMenus];
+      newMenus[menuIndex].inputValue = newValue;
+      return newMenus;
+    });
+    checkUserInput(newValue);
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
+    <div className="flex items-center justify-center min-h-screen bg-gray-800">
+      <div className="flex flex-col items-start ml-10 mt-10">
+        <h1 className={"text-xl md:text-3xl font-bold text-purple-400 " + ps2.className}>
+          linxz:$ 
+            <span className="text-gray-500"> type ls to start</span>
+        </h1>
+
+        <p className="text-base text-gray-300 mt-10">
+          Visit <a href="https://www.linxiaozhong.club" className="text-teal-200">Normal Website</a>
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+
+        <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+          θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+          <input 
+            ref={firstInputRef}
+            className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+            value={firstInputValue} 
+            onChange={handleFirstInputChange} 
+          />
+        </p>
+        {menus.map((menu, index) => {
+          switch (menu.type) {
+              case 'ls':
+                  return <HelpMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'about':
+                  return <AboutMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'education':
+                  return <EducationMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'skills':
+                  return <SkillsMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'projects':
+                  return <ProjectsMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'contact':
+                  return <ContactMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              case 'blog':
+                  return <BlogMenu key={index} index={index} inputValue={menu.inputValue} onChange={handleSecondInputChange} inputRef={menu.ref} />;
+              default:
+                  return null;
+          }
+        })}
       </div>
+    </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   )
 }
+
+const HelpMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* menu content */}
+    <div className='flex justify-between'>
+      <p>about</p>
+      <p>About me</p>
+    </div>
+    <div className='flex justify-between'>
+      <p>education</p>
+      <p>My Education</p>
+    </div>
+    <div className='flex justify-between'>
+      <p>skills</p>
+      <p>My Tech Skills</p>
+    </div>
+    <div className='flex justify-between'>
+      <p>projects</p>
+      <p>My Tech Projects</p> 
+    </div>
+    <div className='flex justify-between'>
+      <p>contact</p>
+      <p>Contact Me</p>
+    </div>
+    <div className='flex justify-between'>
+      <p>blog</p>
+      <p>Visit my blog</p>
+    </div>
+    <div className='flex justify-between'>
+      <p>clear</p>
+      <p>Clear terminal</p>
+    </div>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const AboutMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* about content */}
+    <p className='mb-5'>
+      My name is Linxz. I'm a fullstack AI engineer.
+    </p>
+    <p>
+      I love coding in Javascript and Python, and have worked with frameworks like ReactJS, nextJS. <br/><br/>
+      I currently use NextJS in a lot of my projects.
+    </p>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const EducationMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* education content */}
+    <p className='mb-5'>
+      I graduated from  South China University of Technology in 2012.<br/><br/>
+      I also studied on Udemy, Coursera, deeplearning.ai, and github && youtube!
+    </p>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const SkillsMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* about content */}
+    <p className='mb-5'>
+      I am experienced with Javascript, Typescript and Python and the web technologies dominating at the time:
+    </p>
+
+    <p className='font-bold mb-5'>
+      <span className='text-purple-400'>Core: </span>HTML, CSS, Node.js and Python<br/>
+      <span className='text-purple-400'>Frameworks: </span>React, Gatsby, NextJS, RemixJS, Django and Laravel<br/>
+      <span className='text-purple-400'>Database: </span> MongoDB, PostgreSQL, MySQL, and SQLite
+    </p>
+    <p>
+      I also have knowledge of basic shell scripting.
+    </p>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const ProjectsMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* about content */}
+    <p className='mb-5'>
+      My Projects: <br/><br/>
+      <a className='text-purple-400 underline' href='https://183441.xyz'>ChatFun</a>
+      <p>Nextjs, Python, Tailwindcss</p><br/>
+      <p>a chatbot can talk about anything, with expert level knowledge in autism.</p>
+      <br/>
+      <a className='text-purple-400 underline' href='http://localhost:3000'>This website</a>
+      <p>Nextjs, Tailwindcss</p><br/>
+      <p>My personal website.</p>
+      <br/>
+
+    </p>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const ContactMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* contact content */}
+    <div className='flex justify-between'>
+      <p>github</p>
+      <a className='text-purple-400 underline' href='https://github.com/linxz-coder'>linxz-coder</a>
+    </div>
+    <div className='flex justify-between'>
+      <p>email</p>
+      <a className='text-purple-400 underline' href='colorfool42@gmail.com'>colorfool42@gmail.com</a>
+    </div>
+    <div className='flex justify-between'>
+      <p>X / twitter</p>
+      <a className='text-purple-400 underline' href='https://twitter.com/lamhiuzhong'>lamhiuzhong</a>
+    </div>
+    <div className='flex justify-between'>
+      <p>blog</p>
+      <a className='text-purple-400 underline' href='https://www.linxiaozhong.club'>linxiaozhong.club</a>
+    </div>
+    <div className='flex justify-between'>
+      <p>微信公众号</p>
+      <a className='text-purple-400 underline'>凡学子</a>
+    </div>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
+
+const BlogMenu = ({ index, inputValue, onChange, inputRef }) => (
+  <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
+    {/* blog content */}
+    <a className='underline text-purple-400' href='https://www.linxiaozhong.club'>www.linxiaozhong.club</a>
+
+    {/* 第二个输入框 */}
+    <p className={"text-[8px] md:text-base text-gray-300 mt-10 " + ps2.className}>
+      θ/007 ~ <span className="text-teal-200">{'>> $  '}</span>
+      <input
+        ref={inputRef} 
+        className="mt-4 bg-gray-800 text-white p-2 rounded focus:outline-none"
+        value={inputValue}
+        onChange={(e) => onChange(index, e)} 
+      />
+    </p>
+  </div>
+)
