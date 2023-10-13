@@ -157,7 +157,7 @@ const AboutMenu = ({ index, inputValue, onChange, inputRef }) => (
   <div className={'w-4/5 text-[8px] md:text-base text-gray-300 ' + ps2.className} >
     {/* about content */}
     <p className='mb-5'>
-      My name is Linxz. I'm a fullstack AI engineer.
+      {"My name is Linxz. I'm a fullstack AI engineer."}
     </p>
     <p>
       I love coding in Javascript and Python, and have worked with frameworks like ReactJS, nextJS. <br/><br/>
